@@ -1,7 +1,10 @@
 const express =  require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 // importacao do Schema de usuarios
 const User = require('../models/user');
+
+const authConfg = require('../config/auth')
 
 // instacia uma rota
 const router = express.Router();
@@ -52,9 +55,21 @@ router.post('/register', async (req, res)=>{
         }
 
         user.password = undefined;
+
+
+        // add and config token
+
+
+         /* authConfig contem o md5, expiresIn tempo de validade em segundos 
+         * pega o ID e usado e junta com o md5 cria o token
+         */
+
+        const token = jwt.sign({id: user.id}, authConfg.secret, {
+            expiresIn: 86400,
+        })
        
         // se true 
-        res.send({user})
+        res.send({user, token})
 
     })
 
