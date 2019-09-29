@@ -20,4 +20,4 @@ router.post('/register', async (req, res)=>{
 });
 
 // repasse da rota, essa linha adcionara um prefixo /auth
-module.exports = app => app.user('/auth', router)
+module.exports = app => app.use('/auth', router)
