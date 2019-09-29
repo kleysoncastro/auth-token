@@ -6,7 +6,7 @@ const User = require('../models/user');
 // instacia uma rota
 const router = express.Router();
 
-//post na rota
+//post, rota de registro
 
 router.post('/register', async (req, res)=>{
 
@@ -31,6 +31,29 @@ router.post('/register', async (req, res)=>{
         return res.status(400).send({error: 'Erro no resgistro'})
     }
 });
+
+    // rota pra token
+    router.post('authenticate', async (req, res)=>{
+
+        const {email, password} = req.body;
+        // select('+password') tras senha para ser comparada
+        const user = await User.findOne({email}).select('+password')
+
+        // condicao se nao for encontrado o user"email", rertona erro 400
+        if(!user) {
+            res.status(400).send({erro: "Usuario nao encontrado"})
+        }
+
+    })
+
+
+
+
+
+
+
+
+
 
 // repasse da rota, essa linha adcionara um prefixo /auth
 module.exports = app => app.use('/auth', router)
