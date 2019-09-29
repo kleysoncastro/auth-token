@@ -18,3 +18,6 @@ router.post('/register', async (req, res)=>{
         return res.status(400).send({error: 'Erro no resgistro'})
     }
 });
+
+// repasse da rota, essa linha adcionara um prefixo /auth
+module.exports = app => app.user('/auth', router)
