@@ -1,5 +1,5 @@
 const express =  require('express');
-
+const bcrypt = require('bcryptjs');
 // importacao do Schema de usuarios
 const User = require('../models/user');
 
@@ -33,9 +33,10 @@ router.post('/register', async (req, res)=>{
 });
 
     // rota pra token
-    router.post('authenticate', async (req, res)=>{
+    router.post('/authenticate', async (req, res)=>{
 
         const {email, password} = req.body;
+       
         // select('+password') tras senha para ser comparada
         const user = await User.findOne({email}).select('+password')
 
@@ -43,13 +44,19 @@ router.post('/register', async (req, res)=>{
         if(!user) {
             res.status(400).send({erro: "Usuario nao encontrado"})
         }
+        
+        // condicao para comparacao de hash,1 parametro e password parado para ser comparado com o mongodb
+        if(!await bcrypt.compare(password, user.password)) {
+
+            return res.status(400).send({erro: "Senha invalida"})
+        }
+
+        user.password = undefined;
+       
+        // se true 
+        res.send({user})
 
     })
-
-
-
-
-
 
 
 
