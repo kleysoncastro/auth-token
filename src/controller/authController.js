@@ -4,13 +4,19 @@ const jwt = require('jsonwebtoken');
 // importacao do Schema de usuarios
 const User = require('../models/user');
 
-const authConfg = require('../config/auth')
+const authConfig = require('../config/auth')
 
 // instacia uma rota
 const router = express.Router();
 
-//post, rota de registro
+// funcao para gerar token
+function genarToken(idUser = {}) {
+    return jwt.sign(idUser, authConfig.secret,
+         {expiresIn: 86400})
+}
 
+
+//post, rota de registro
 router.post('/register', async (req, res)=>{
 
     // recupera instancia do email 
@@ -29,7 +35,10 @@ router.post('/register', async (req, res)=>{
         // essa linha empeque que a hash de senha retorne no post
         user.password = undefined;
 
-        return res.send({user})
+        return res.send({
+            user,
+            token: genarToken({id: user.id}) 
+        })
     } catch(error){
         return res.status(400).send({error: 'Erro no resgistro'})
     }
@@ -56,26 +65,14 @@ router.post('/register', async (req, res)=>{
 
         user.password = undefined;
 
-
-        // add and config token
-
-
-         /* authConfig contem o md5, expiresIn tempo de validade em segundos 
-         * pega o ID e usado e junta com o md5 cria o token
-         */
-
-        const token = jwt.sign({id: user.id}, authConfg.secret, {
-            expiresIn: 86400,
-        })
        
-        // se true 
-        res.send({user, token})
+        
+        res.send({
+            user, 
+            token: genarToken({id: user.id}) 
+        })
 
-    })
-
-
-
-
+    })// rota de auth
 
 // repasse da rota, essa linha adcionara um prefixo /auth
 module.exports = app => app.use('/auth', router)
