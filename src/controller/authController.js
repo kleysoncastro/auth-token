@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.post('/register', async (req, res)=>{
     try {
-
-        const user = await user.create(req.body)
+// correcao da linha 
+        const user = await User.create(req.body)
 
         return res.send({user})
     } catch(error){

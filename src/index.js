@@ -15,4 +15,4 @@ app.use(bodyParser.urlencoded({extended: false}));
 // repasse do class controle para o metodo
 require('../src/controller/authController')(app)
 
-app.listen(3001);
+app.listen(3000);
