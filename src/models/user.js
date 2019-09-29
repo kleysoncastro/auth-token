@@ -1,4 +1,5 @@
 const mongoose = require('../database/server');
+const bcryptjs = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
 
@@ -23,6 +24,15 @@ const userSchema = new mongoose.Schema({
     }
 
 });
+
+// anstes de salvar encripra usando a lib bcrypt
+
+userSchema.pre('save', async function(next) {
+    const hash = await bcryptjs.hash(this.password, 10);
+    this.password = hash;
+})
+
+
 // user sera o nome da colection/dabela
 const User = mongoose.model('user', userSchema);
 
