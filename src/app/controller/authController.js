@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // importacao do Schema de usuarios
 const User = require('../models/user');
 
-const authConfig = require('../config/auth')
+const authConfig = require('../../config/auth')
 
 // instacia uma rota
 const router = express.Router();
