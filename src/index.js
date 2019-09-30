@@ -13,7 +13,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // repasse do class controle para o metodo
-require('../src/app/controller/authController')(app)
-require('../src/app/controller/projectController')(app)
+require('../src/app/controller/includes')(app)
 
 app.listen(3000);
