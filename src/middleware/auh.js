@@ -22,7 +22,20 @@ module.exports = (req, res, next) => {
     if(!/Bearer$/i.test(schema)) {
 
         return res.status(401).send({error: 'token mal formado'});
-    
     }
+    /* 
+    * token recebido 
+    * authconfig mdd5 
+    * dois parametros de retorno
+    * err, quanod a erro
+    * decoded retorna ide decodificado
+    */
+    jwt.verify(token, authConfig.secret, (err, decoded)=>{
 
+        if(err) return res.status(401).send({error: 'token invalido'}) 
+
+        req.userId = decoded.id;
+        
+        return next();
+    });
 };

@@ -12,7 +12,7 @@ const router = express.Router();
 // funcao para gerar token
 function genarToken(idUser = {}) {
     return jwt.sign(idUser, authConfig.secret,
-         {expiresIn: 86400})
+     {expiresIn: 86400})
 }
 
 
