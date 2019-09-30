@@ -9,7 +9,7 @@ const authConfig = require('../config/auth')
 // instacia uma rota
 const router = express.Router();
 
-// funcao para gerar token
+// funcao para gerar token, pode ser qualquer dado para geracao do token
 function genarToken(idUser = {}) {
     return jwt.sign(idUser, authConfig.secret,
      {expiresIn: 86400})

@@ -34,6 +34,7 @@ module.exports = (req, res, next) => {
 
         if(err) return res.status(401).send({error: 'token invalido'}) 
 
+        // sera usado na class para fins de CRUD
         req.userId = decoded.id;
         
         return next();
